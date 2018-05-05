@@ -46,6 +46,7 @@ class Post{
 	
 	public function loadPostsFriends($data,$limit){
         $page = $data['page'];
+        //echo $page;
         $userLoggedIn = $this->user_obj->getUserName();
 
         if($page==1){
@@ -88,6 +89,9 @@ class Post{
         	if($added_by_obj->isClosed()){
         		continue;
         	}
+
+          $user_logged_obj = new user($this->con,$userLoggedIn);
+          if($user_logged_obj->isFriend($added_by)){
        //   $un = $added_by->getUserName();
 
           if($num_iterations++ <$start)
@@ -105,6 +109,21 @@ class Post{
         	$first_name = $user_row['fname'];
         	$last_name = $user_row['lname'];
           $profile_pic = $user_row['profile_pic'];
+           ?>
+            <script>
+              function toggle<?php echo $id;?>(){
+                var element = document.getElementById("toggleComment<?php echo $id; ?>");
+                if(element.style.display=='block')
+                  element.style.display ='none';
+                else 
+                  element.style.display = 'block';
+              }
+            </script>
+ 
+
+           <?php
+
+
 
         	//timeframe
         	$date_time_now = date("Y-m-d H:i:s");
@@ -168,7 +187,7 @@ class Post{
           	}
           
 
-            $str.= "<div class='status_post'>
+            $str.= "<div class='status_post' onclick='javascript:toggle$id()'>
                        <div class='post_profile_pic'>
                        <img src='$profile_pic' width='50'>
                        </div>
@@ -179,21 +198,35 @@ class Post{
                            $body
                          <br>
                          </div>
-                    </div>     
+                    </div> 
+                    <div class='post_comment' id='toggleComment$id' style='display:none'>
+                      <iframe src='comment_frame.php?post_id=$id' id='comment_iframe' frameborder='0'>
+                      </iframe>
+
+                    </div>    
                     <hr>
                    ";
-                   
-        }
-        if($count>$limit){
-          $str .="<input type='hidden' class='next_page' value='".($page+1)."'><input type='hidden' class='noMorePosts' value='false'>";
+          }
 
+        }//end while loop
+        if($count>$limit){
+         //
+          //echo $page;
+          $page++;
+           //echo $page;
+          $str .="<input type='hidden' class='next_page' value='".($page)."'><input type='hidden' class='noMorePosts' value='false'>";
+          echo $str;
         }
         else{
+          //echo "printing";    
           $str .="<input type='hidden' class='noMorePosts' value='true'><p style='text-align:center'>No more posts to show </p>";
-
+          echo $str;   
         }
-      }
-      echo $str;
+        
+    
+    }  
+    //echo $str;
+
    }
 }
 ?>

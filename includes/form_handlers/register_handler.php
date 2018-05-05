@@ -126,7 +126,7 @@ if(isset($_POST['register_button'])){
 
      	$profile_pic = "assets/images/profile_pics/default/".$arr[$n].".png";
     	$k = "NO";
-        $query = mysqli_query($con,"INSERT into users values ('','$fname' , '$lname' , '$username' , '$em' , '$password' ,'$profile_pic','$date','0','0','NO') " );
+        $query = mysqli_query($con,"INSERT into users values ('','$fname' , '$lname' , '$username' , '$em' , '$password' ,'$profile_pic','$date','0','0','NO','') " );
         
        //echo ""
         if($query === false){

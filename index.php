@@ -17,14 +17,14 @@ if(isset($_POST['post'])){
    //echo "adding";
    $post->submitPost($_POST['post_text'],'none');   
    $_SESSION['message'] = $_POST['post_text'];
-   echo $_SESSION['message'];
+   //echo $_SESSION['message'];
    unset($_POST);
-   header("Location: index.php");
+   //header("Location: index.php");
     }
    
-  else{
-  	unset($_POST);
-  }
+  //else{
+  	//unset($_POST);
+ // }
    //$_POST = array();
    //unset($_POST['post']);
    //unset($_SESSION['post']);
@@ -70,10 +70,13 @@ if(isset($_POST['post'])){
     	var userLoggedIn = '<?php echo $userLoggedIn?>';
         //echo userLoggedIn;
         //alert(userLoggedIn);
+       //sessionStorage.current_page = 1;
+      // alert(sessionStorage.current_page);
         $(document).ready(function(){
            $('#loading').show();
     
            //original req for loading req
+
 
            $.ajax({
                 url:"includes/handlers/ajax_load_posts.php",
@@ -92,28 +95,33 @@ if(isset($_POST['post'])){
                  var height = $('.posts_area').height();//div containing posts
                  //alert(height); 
                  var scroll_top = $(this).scrollTop();
-                 var page = $('.posts_area').find('.nextPage').val();
+                 var page = $('.posts_area').find('.next_page').val();
                  var noMorePosts = $('.posts_area').find('.noMorePosts').val();
                 // alert (noMorePosts);
+                console.log(page);
                  //console.log(document.body.scrollHeight);
-                 console.log(document.body.scrollTop);
-                 console.log($(window).innerHeight());
+                // console.log(document.body.scrollTop);
+                // console.log($(window).innerHeight());
                  //(document.body.scrollHeight == document.body.scrollTop + window.innerHeight)   
                     var scrollHeight, totalHeight;
 				    scrollHeight = document.body.scrollHeight;
 				    totalHeight = window.scrollY + window.innerHeight;
+				    //var current_page = '<%= Session["current_page"] %>';
+
                  //(document.body.scrollHeight == document.body.scrollTop + window.innerHeight)
-                 if(totalHeight >= scrollHeight && noMorePosts == 'false'){
+                 if(totalHeight >= scrollHeight && noMorePosts === 'false' ){
                      $('#loading').show();
-                               
-                     console.log("here");
+                    // var page = $('.posts_area').find('.next_page').val();          
+                     //console.log("here");
+                     //alert(page);
                      var ajaxReq = $.ajax({
 		                url:"includes/handlers/ajax_load_posts.php",
 		                type:"POST",
+		                async:false,//adding it made a single call for each ajax call
 		                data:"page="+page+"&userLoggedIn="+userLoggedIn, 
 		                cache:false,
 		                success:function(response){
-		                	$('.posts_area').find('.nextPage').remove(); //removes current next page
+		                	$('.posts_area').find('.next_page').remove(); //removes current next page
 
 		                	$('.posts_area').find('.noMorePosts').remove(); //removes current next page
  
@@ -121,6 +129,7 @@ if(isset($_POST['post'])){
 		                	$('#loading').hide();
 		                	$('.posts_area').append(response);
 		                }
+		                //sessionStorage.current_page = page;
 
                      });
 
@@ -134,20 +143,15 @@ if(isset($_POST['post'])){
 
            });//end (window).scroll(function());
         }) ;	
-    </script>
-    <script >
-   // window.onscroll = function() {
-   // var scrollHeight, totalHeight;
-   // scrollHeight = document.body.scrollHeight;
-   // totalHeight = window.scrollY + window.innerHeight;
-
-    //if(totalHeight >= scrollHeight)
-    //{
-     //   console.log("at the bottom");
-    //}
-//    }
-    </script>
+    </script>   
     
   </div>
 </body>
 </html>
+<?php 
+//                         DIFFICULTIES 
+
+//  1>to stop resubmission on reloading
+//  2> to detect the end of scroll in index.php
+
+?>
