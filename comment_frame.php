@@ -159,6 +159,9 @@ else{
   </div>
 <?php
   	}
+  }
+  else {
+  	echo "<center><br>No Comments to show</center>";
   } 
   ?>
 

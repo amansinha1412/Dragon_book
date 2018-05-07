@@ -159,6 +159,7 @@ textarea:focus{
 	max-height: 250px;
 	width:100%;	
 	background-color: #fff;
+	margin-top:5px;
 }
 .comment_section{
 	padding:0 5px 5px 5px;	
@@ -189,5 +190,97 @@ textarea:focus{
     color:#d3d3d3;
     text-shadow:#d3d3d3 0.5px 0.5px 0px;
 
+}
+.newsFeedPostOptions { 
+     padding:0px;
+     text-decoration:none;
+     color:#2a75bf;
+     border:none;
+}
+.newsFeedPostOptions iframe{
+	border:none;
+	height:17px;
+	width:120px;
+	position: absolute;
+}
 
+.comment_like{
+	background-color: transparent;
+	border:none;
+    font-size:14px;
+    color:#2a75bf;
+    padding: 0;
+    height:auto;
+    width:auto;
+    margin:0;
+}
+.like_value{
+	display: inline;
+	font-size:14px;
+}
+
+.profile_left{
+ top:-10px;
+ width:14px;
+ max-width:240px;
+min-width: 130px;
+height:400px;
+float:left;
+position:relative;
+background-color:#2a75bf;
+border-right:10px solid #dedcea ;
+color:#CBEAFB;
+margin-right:20px;
+
+}
+.profile_left img{
+	min-width:80px;
+	width:55%;
+	margin:20px;
+	border:5px solid #fff;
+    border-radius: 100px;
+}
+.profile_info {
+	display: list-item;
+	background-color::#2a75bf;
+	width:100%;
+	padding:10px 0 10px 0;
+
+}
+.profile_info p{
+	margin:0 0 0 20px;
+	word-wrap:break-word;
+}
+
+.danger{
+	background-color: #e74c3c;
+	
+
+
+}
+.warning{
+	background-color: #f0ad4e;
+	
+}
+.default{
+	background-color: #bdc3c7;
+	
+}
+.success{
+	background-color: #2ecc71;
+	
+}
+.info{
+	background-color: #3498db;
+}
+.deep_blue{
+	background-color: #0043f0;
+}
+.profile_left input[type="Submit"]{
+	width:90%;
+	height:30px;
+	border-radius:5px;
+	margin:7px 0 0 7px;
+    border:none;
+    color:#fff;
 }
