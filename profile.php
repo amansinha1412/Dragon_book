@@ -20,9 +20,10 @@ if(isset($_POST['remove_friend'])){
 if(isset($_POST['add_friend'])){
 	$user = new user($con,$userLoggedIn);
 	$user->sendRequest($username);
+    unset($_POST['add_friend']);
 }
 if(isset($_POST['respond_request'])){
-	header("Location:requests.php");
+	header("Location:request.php");
 }
 ?>
 <style type="text/css">
@@ -56,23 +57,167 @@ if(isset($_POST['respond_request'])){
             		echo '<input type="submit" name ="respond_request" class="warning" value="Respond">';
             	}
             	else if($logged_in_user_obj->didSendRequest($username)){
-            		echo "sending";
+            		//echo "sending";
             		echo '<input type="submit" name ="" class="default" value="Request Sent"><br>';
             	}
             	else{
             		echo '<input type="submit" name ="add_friend" class="success" value="Add Friend"><br>';
 
             	}
-            }      
+
+            }
+
+            ?>
+            
+            <?php
+
 		?>
 		
 	</form>
+    <input type="submit" class="deep_blue" data-toggle="modal" data-target="#post_form" value="post something" >
+    <?php
+     if($userLoggedIn!=$username){
+        echo '<div class="profile_info_bottom">';
+        echo $logged_in_user_obj->getMutualFriends($username)." Mutual Friends";
+        echo '</div>';
+     }   
+    ?>
 </div>
   
- <div class="main_column column">
-  This is a profile_page; 	
+ <div class="profile_main_column column">
+  	<div class="posts_area"></div>
+    <img id="loading" src="assets/images/icons/loading.gif">
+  
+
  </div>
 
+
+<!--modal button 
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  Launch demo modal
+</button>
+-->
+
+<!-- Modal -->
+<div class="modal fade" id="post_form" tabindex="-1" role="dialog" aria-labelledby="postModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="myModalLabel">Post Something</h5>
+        
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>This will appear on user's profile page also their newsfeed for your friends to see</p>
+
+        <form class="profile_post" action="profile.php" method="POST">
+            <div class="form-group">
+                <textarea class="form-control" name="post_body" ></textarea>
+                <input type="hidden" name="user_from" value="<?php echo $userLoggedIn?>" >
+                 <input type="hidden" name="user_to" value="<?php echo $username?>" >
+
+
+                
+                
+            </div>
+            
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" name="post_button" id="submit_profile_post">Post</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+      var profile_username = '<?php echo $username;  ?>';
+      var userLoggedIn = '<?php echo $userLoggedIn ; ?>';
+
+        //echo userLoggedIn;
+        //alert(userLoggedIn);
+       //sessionStorage.current_page = 1;
+      // alert(sessionStorage.current_page);
+        $(document).ready(function(){
+           $('#loading').show();
+           //alert (profile_username);
+           //original req for loading req
+
+
+           $.ajax({
+                url:"includes/handlers/ajax_load_profile_post.php",
+                type:"POST",
+                data:"page=1&userLoggedIn="+userLoggedIn+"&profileUsername="+profile_username,
+                cache:false,
+                success:function(data){
+                  //alert("success");
+                  $('#loading').hide();
+                  $('.posts_area').html(data);
+                }
+
+           });
+
+           $(window).scroll(function(){
+                  
+                 var height = $('.posts_area').height();//div containing posts
+                 //alert(height); 
+                 var scroll_top = $(this).scrollTop();
+                 var page = $('.posts_area').find('.next_page').val();
+                 var noMorePosts = $('.posts_area').find('.noMorePosts').val();
+                // alert (noMorePosts);
+                console.log(page);
+                 //console.log(document.body.scrollHeight);
+                // console.log(document.body.scrollTop);
+                // console.log($(window).innerHeight());
+                 //(document.body.scrollHeight == document.body.scrollTop + window.innerHeight)   
+                    var scrollHeight, totalHeight;
+            scrollHeight = document.body.scrollHeight;
+            totalHeight = window.scrollY + window.innerHeight;
+            //var current_page = '<%= Session["current_page"] %>';
+
+                 //(document.body.scrollHeight == document.body.scrollTop + window.innerHeight)
+                 if(totalHeight >= scrollHeight && noMorePosts === 'false' ){
+                   //alert("coming_down");
+                     $('#loading').show();
+                    // var page = $('.posts_area').find('.next_page').val();          
+                     //console.log("here");
+                     //alert(page);
+                     var ajaxReq = $.ajax({
+                    url:"includes/handlers/ajax_load_profile_post.php",
+                    type:"POST",
+                    async:false,//adding it made a single call for each ajax call
+                    data:"page="+page+"&userLoggedIn="+userLoggedIn+"&profileUsername="+profile_username, 
+                    cache:false,
+                    success:function(response){
+                     // alert("succ");
+                      $('.posts_area').find('.next_page').remove(); //removes current next page
+
+                      $('.posts_area').find('.noMorePosts').remove(); //removes current next page
+ 
+
+                      $('#loading').hide();
+                      $('.posts_area').append(response);
+                    }
+                    //sessionStorage.current_page = page;
+
+                     });
+
+ 
+
+                 }// end if 
+                  
+
+                return false;
+
+
+           });//end (window).scroll(function());
+        }) ;  
+    </script>   
+    
   </div>
 </body>
 </html>

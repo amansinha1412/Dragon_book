@@ -205,6 +205,7 @@ textarea:focus{
 }
 
 .comment_like{
+	cursor:pointer;
 	background-color: transparent;
 	border:none;
     font-size:14px;
@@ -221,7 +222,7 @@ textarea:focus{
 
 .profile_left{
  top:-10px;
- width:14px;
+ width:17%;
  max-width:240px;
 min-width: 130px;
 height:400px;
@@ -231,6 +232,7 @@ background-color:#2a75bf;
 border-right:10px solid #dedcea ;
 color:#CBEAFB;
 margin-right:20px;
+
 
 }
 .profile_left img{
@@ -283,4 +285,48 @@ margin-right:20px;
 	margin:7px 0 0 7px;
     border:none;
     color:#fff;
+}
+
+#accept_button{
+	width:20%;
+	height: 30px;
+	border-radius: 5px;
+	margin:5px;
+	border:none;
+	color:#fff;
+    background-color:#2ecc71; 
+}
+#ignore_button{
+	width:20%;
+	height: 30px;
+	border-radius: 5px;
+	margin:5px;
+	border:none;
+	color:#fff;
+	background-color:#f0ad4e; 
+
+}
+.profile_post textarea{
+	width: 498px;
+    min-width: 200px;
+}
+.delete_button{
+	height:22px;
+	width:22px;
+	padding:0;
+	float:right;
+	border-radius:4px;
+	right:-15px;
+	position:relative;
+
+}
+.profile_main_column {
+	min-width:675px;
+	float:left;
+	width:70px;
+	z-index:-1;
+
+}
+.profile_info_bottom {
+	margin:10px 0px 0px 7px;
 }
