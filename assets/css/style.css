@@ -51,6 +51,9 @@ nav a{
 	color:#fff;
 	text-decoration: none;
 	font-size:17px;
+	margin-left: -6px;
+    margin-right: 19px;
+
 }
 nav{
 	float:right;
@@ -388,6 +391,7 @@ margin-right:20px;
 	max-height:400px;
 	overflow: scroll;
 	margin-bottom:10px;
+	 overflow-x:hidden;
 }
 .user_found_messages:hover{
     background-color: #D3D3D3;
@@ -438,4 +442,36 @@ margin-right:20px;
 }
 .tab_content{
 	margin-top:25px;
+}
+
+.dropdown_data_window {
+    right: 0px;
+    float: right;
+    position: absolute;
+    background-color: #fff;
+    width: 300px;
+    top: 45px;
+    border: 1px solid #dadada;
+    overflow: scroll;
+    border-radius: 0 0 8px 8px;
+    overflow-x:hidden;
+    max-height: 280px;
+}
+.notification_badge{
+   padding :3px 7px;
+   font-size:12px;
+   font-weight:700;
+   line-height:1;
+   color:#fff;
+   text-align :center;
+   white-space :none;
+   vertical-align: baseline;
+   background-color: red;
+   border-radius:10px;
+   position:absolute;
+   left:7px;
+   top:-5px;   
+}
+.home_icon_link{
+	margin-right:8px;
 }

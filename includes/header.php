@@ -40,19 +40,115 @@ else{
         </div>
         
         <nav>
+            <?php
+               //Unread Messages 
+               $messages = new Message($con,$userLoggedIn);
+               $num_messages = $messages->getUnreadNumber();
+
+
+            ?>
         	<a href=<?php echo $userLoggedIn; ?> ><?php
              echo $user['fname'];
         	?></a>
-        	<a href="index.php"><i class="fa fa-home fa-lg" aria-hidden="true"></i></a>
+        	<a href="index.php" class="home_icon_link"><i class="fa fa-home fa-lg" aria-hidden="true"></i></a>
         	<a href=""><i class="fa fa-commenting-o" aria-hidden="true"></i></a>
         	<a href=""><i class="fa fa-cog" aria-hidden="true"></i></a>
-            <a href="messages.php"><i class="fa fa-envelope-square" aria-hidden="true"></i></a>
+            <a href="javascript:void(0);" onclick="getDropdownData('<?php echo $userLoggedIn; ?>','message')"> <i class="fa fa-envelope-square" aria-hidden="true"></i>
+                <?php
+                if($num_messages>0)
+
+                echo '<span class="notification_badge" id ="unread_message">'.$num_messages.' </span>'; 
+                
+                ?>
+
+            </a>
         	<a href="request.php"><i class="fa fa-users" aria-hidden="true"></i></a>
 
         	<a href=""><i class="fa fa-bell-o" aria-hidden="true"></i></a>
         	<a href="includes/handlers/logout.php"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
           
         </nav>
+        <div class="dropdown_data_window" ></div>
+            <input type="hidden" id="dropdown_data_type" value="">
+         
+         <script>
+        var userLoggedIn = '<?php echo $userLoggedIn?>';
+        //echo userLoggedIn;
+        //alert(userLoggedIn);
+       //sessionStorage.current_page = 1;
+      // alert(sessionStorage.current_page);
+        $(document).ready(function(){
+          
+    
+           //original req for loading req
+
+
+           
+
+           $('.dropdown_data_window').scroll(function(){
+                  
+                 var inner_height = $('.dropdown_data_window').innerHeight();//div containing posts
+                 //alert(height); 
+                 var scroll_top = $('.dropdown_data_window').scrollTop();
+                 var page = $('.dropdown_data_window').find('.nextPageDropDownData').val();
+                 var noMoreData = $('.dropdown_data_window').find('.noMoreDropDownData').val();
+                // alert (noMorePosts);
+                //console.log(page);
+                 //console.log(document.body.scrollHeight);
+                // console.log(document.body.scrollTop);
+                // console.log($(window).innerHeight());
+                 //(document.body.scrollHeight == document.body.scrollTop + window.innerHeight)   
+                    var scrollHeight, totalHeight;
+                    scrollHeight = document.body.scrollHeight;
+                    totalHeight = window.scrollY + window.innerHeight;
+                    //var current_page = '<%= Session["current_page"] %>';
+
+                 //(document.body.scrollHeight == document.body.scrollTop + window.innerHeight)
+                 var k = $('.dropdown_data_window')[0].scrollHeight
+                  console.log("hi3");
+                 if((scroll_top + inner_height >= k ) && noMoreData == "false" ){
+
+                     var pageName;
+                     var type = $('#dropdown_data_type').val();
+
+                     if(type=="notification"){
+                        pageName = "ajax_load_notification.php";
+                     }
+                     else if(type="message"){
+                        pageName = "ajax_load_messages.php";
+                     }
+                     var ajaxReq = $.ajax({
+                        url:"includes/handlers/"+pageName,
+                        type:"POST",
+                        async:false,//adding it made a single call for each ajax call
+                        data:"page="+page+"&userLoggedIn="+userLoggedIn, 
+                        cache:false,
+                        success:function(response){
+                            $('.dropdown_data_window').find('.nextPageDropDownData').remove(); //removes current next page
+
+                            $('.dropdown_data_window').find('.noMoreDropDownData').remove(); //removes current next page
+ 
+
+                            //$('#loading').hide();
+                            $('.dropdown_data_window').append(response);
+                        }
+                        //sessionStorage.current_page = page;
+
+                     });
+
+ 
+
+                 }// end if 
+                  
+
+                return false;
+
+
+           });//end (window).scroll(function());
+        }) ;    
+    </script>   
+
+
     </div>
 
   <div class="wrapper">
