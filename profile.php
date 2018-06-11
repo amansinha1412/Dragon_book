@@ -1,7 +1,8 @@
 <?php
 include("includes/header.php");
-include("includes/classes/User.php");
-include("includes/classes/Post.php");
+//include("includes/classes/User.php");
+//include("includes/classes/Post.php");
+$message_obj = new message($con,$userLoggedIn);
 
 if(isset($_GET['profile_username'])){
 	$username = $_GET['profile_username'];
@@ -24,6 +25,20 @@ if(isset($_POST['add_friend'])){
 }
 if(isset($_POST['respond_request'])){
 	header("Location:request.php");
+}
+if(isset($_POST['post_message'])){
+    if(isset($_POST['message_body'])){
+      $body = mysqli_escape_string($con,$_POST['message_body']);
+      $date = date("Y-m-d H:i:s");
+      $message_obj->sendMessage($username,$body,$date);
+
+    }
+    $link = '#profileTabs a[href="#messages_div"';
+ echo "<script>
+     $(function(){
+       $('".$link."]').tab('show');
+     });
+     </script>";  
 }
 ?>
 <style type="text/css">
@@ -85,11 +100,58 @@ if(isset($_POST['respond_request'])){
 </div>
   
  <div class="profile_main_column column">
-  	<div class="posts_area"></div>
-    <img id="loading" src="assets/images/icons/loading.gif">
-  
+   <ul class="nav nav-tabs" role="tablist" id="profileTabs">
+      <li role="presentation" class="active"><a href="#newsfeed_div" aria_controls="newsfeed_div" role="tab" data-toggle="tab">Home</a></li>
+      <li role="presentation"><a href="#about_div" aria_controls="about_div" role="tab" data-toggle="tab">Profile</a></li>
+      <li role="presentation"><a href="#messages_div" aria_controls="messages_div" role="tab" data-toggle="tab" >Messages</a></li>
+    </ul>
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane fade in active" id="newsfeed_div">
+        <div class="posts_area"></div>
+          <img id="loading" src="assets/images/icons/loading.gif">
+      </div>
+      <div role="tabpanel" class="tab-pane fade " id="about_div">
+        
+     </div>
+      <div role="tabpanel" class="tab-pane fade " id="messages_div">
+      <?php
+         
+         
+          echo "<h4>You and <a href=".$username.">".$profile_user_obj->getFirstAndLastName()."</a></h4><br><hr>";
+          echo "<div class ='loaded_messages'   id='scroll_messages'  onload = 'alert('"."hello"."')'>";
+          //echo $user_to;
+          echo $message_obj->getMessages($username);
+          echo '</div>';
+         
+      ?>
 
- </div>
+      <div class="message_post">
+        <form action="" method="POST">
+          
+            <textarea name='message_body' id ='message_textarea' placeholder='Write your message...'></textarea>
+                    <input type='submit' name ='post_message' class='info' id='message_submit' value='Send'> 
+        </form>
+      </div>
+      
+
+  <script>
+        function load(){
+          //alert("hello")s;
+    var div = document.getElementById("scroll_messages");
+    // alert(div.value); 
+    //alert(div.scrollTop);
+    div.scrollTop = div.scrollHeight;
+       }
+
+       </script>
+  
+                     </div>
+        
+      </div>
+    </div>
+  	
+
+ 
 
 
 <!--modal button 
@@ -169,7 +231,7 @@ if(isset($_POST['respond_request'])){
                  var page = $('.posts_area').find('.next_page').val();
                  var noMorePosts = $('.posts_area').find('.noMorePosts').val();
                 // alert (noMorePosts);
-                console.log(page);
+                //console.log(page);
                  //console.log(document.body.scrollHeight);
                 // console.log(document.body.scrollTop);
                 // console.log($(window).innerHeight());
@@ -193,7 +255,7 @@ if(isset($_POST['respond_request'])){
                     data:"page="+page+"&userLoggedIn="+userLoggedIn+"&profileUsername="+profile_username, 
                     cache:false,
                     success:function(response){
-                     // alert("succ");
+                      //alert("succ");
                       $('.posts_area').find('.next_page').remove(); //removes current next page
 
                       $('.posts_area').find('.noMorePosts').remove(); //removes current next page

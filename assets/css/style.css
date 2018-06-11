@@ -100,7 +100,7 @@ nav a:hover{
 	float:right;
 	width:65%;
 	z-index:-1;
-	min-height: 160px;
+	min-height: 170px;
 	margin-top: 21px;
 }
 
@@ -329,4 +329,113 @@ margin-right:20px;
 }
 .profile_info_bottom {
 	margin:10px 0px 0px 7px;
+}
+#message_textarea{
+	width: 85%;
+	margin-right:8px;
+	border-radius: 5px;
+	border:1px solid #D3D3D3;
+    font-size:12px;
+}
+#message_submit{
+	width:80px;
+	height:50px;
+	margin:0;
+	position:absolute;
+    border:none;
+    border-radius: 5px;
+    background-color: #2a75bf;
+    font-family: 'Bellota-BoldItalic',sans-serif;
+    color:#d3d3d3;
+    text-shadow:#d3d3d3 0.5px 0.5px 0px;
+    font-size:90%;
+     
+    outline:0;
+  
+}
+.message{
+	border:1px solid #000;
+	border-radius: 5px;
+	padding:5px 10px;
+	display: inline-block;
+	color:#fff;
+
+}
+.message#blue{
+	background-color: #2a75bf;
+	border-color:#d3d3d3;
+	float:right;
+	margin-bottom:5px;
+
+}
+.message#blue{
+	background-color: #2a75bf;
+	border-color:#d3d3d3;
+	float:right;
+	margin-bottom:5px;
+
+}
+.message#green{
+	background-color: #4cd137;
+	border-color:#d3d3d3;
+	float:left;
+	margin-bottom:5px;
+
+}
+.loaded_messages{
+	height:65%;
+	min-height: 300px;
+	max-height:400px;
+	overflow: scroll;
+	margin-bottom:10px;
+}
+.user_found_messages:hover{
+    background-color: #D3D3D3;
+}
+
+.loaded_conversations{
+    max-height: 216px;
+    overflow: scroll;
+}
+
+.user_found_messages{
+	border-bottom:1px solid #d3d3d3;
+	padding: 8px 8px 10px 8px;
+}
+.user_found_messages img{
+  height:35px;
+  float:left;
+}
+#grey{
+	color:#8C8C8C;
+}
+.resultDisplay{
+	padding :5px 5px 0 5px;
+	height:50px;
+	border-bottom:1px solid #d3d3d3;
+}
+.resultDisplay a{
+	float:none;
+
+}
+.resultDisplay:hover{
+  background-color:#ebebeb;
+  text-decoration: none;
+}
+.liveSearchProfilePic img{
+	height:50px;
+	border-radius:25px;
+	margin:1px 12px 0 2px;
+	float:left;
+}
+.liveSearchText p{
+	margin-left:10px;
+	font-size:12px;
+}
+.liveSearchText {
+	background-color: transparent;
+	color:#2a75bf;
+}
+.tab_content{
+	margin-top:25px;
 }

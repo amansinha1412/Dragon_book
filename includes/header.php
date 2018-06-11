@@ -1,6 +1,8 @@
 <?php
 require 'config/config.php';
-
+include("classes/Message.php");
+include("classes/User.php");
+include("classes/Post.php");
 if(isset($_SESSION['username'])){
 	$userLoggedIn = $_SESSION['username'];
     $user_details_query = mysqli_query($con,"SELECT * from users where username='$userLoggedIn'");
@@ -16,7 +18,7 @@ else{
 <html>
 <head>
 	<!-- js -->
-	<title>welcome to caavo drive</title>
+	<title>Welcome to dragon ball super book</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 	<script src="assets/js/bootstrap.js" ></script>
     <script src="assets/js/swirlfeed.js" ></script>
@@ -38,12 +40,13 @@ else{
         </div>
         
         <nav>
-        	<a href=""><?php
+        	<a href=<?php echo $userLoggedIn; ?> ><?php
              echo $user['fname'];
         	?></a>
         	<a href="index.php"><i class="fa fa-home fa-lg" aria-hidden="true"></i></a>
         	<a href=""><i class="fa fa-commenting-o" aria-hidden="true"></i></a>
         	<a href=""><i class="fa fa-cog" aria-hidden="true"></i></a>
+            <a href="messages.php"><i class="fa fa-envelope-square" aria-hidden="true"></i></a>
         	<a href="request.php"><i class="fa fa-users" aria-hidden="true"></i></a>
 
         	<a href=""><i class="fa fa-bell-o" aria-hidden="true"></i></a>
