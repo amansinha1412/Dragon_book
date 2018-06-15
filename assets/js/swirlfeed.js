@@ -8,7 +8,17 @@ $(document).ready(function(){
      }
   }); 
   
+  $('#search_text_input').on("keydown",function(e){
+      if(e.keyCode == 13){
+         document.search_form.submit();   
+      }
+  });
 
+  $('.search_results_footer').on("click",function(){
+     document.search_form.submit();
+     $('#search_text_input').val ="";
+  });
+ 
   $('.button_holder').on('click' ,function(){
        document.search_form.submit();
   });
