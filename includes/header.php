@@ -3,6 +3,8 @@ require 'config/config.php';
 include("classes/Message.php");
 include("classes/User.php");
 include("classes/Post.php");
+include("classes/Notification.php");
+
 if(isset($_SESSION['username'])){
 	$userLoggedIn = $_SESSION['username'];
     $user_details_query = mysqli_query($con,"SELECT * from users where username='$userLoggedIn'");
@@ -38,12 +40,36 @@ else{
     	<div class="logo">
     		<a href="index.php">Swirlfeed</a>
         </div>
-        
+       
+       <div class="search">
+             <form  method="GET" name="search_form">
+                <input type="text" onkeyup="getLiveSearchUsers(this.value,'<?php echo $userLoggedIn?>')" name="q" placeholder="Search.." autocomplete="off" id="search_text_input">
+
+                <div class="button_holder" >
+                   <img src="assets/images/icons/magnifying_glass.png"> 
+                </div>  
+              </form>
+              <div class="search_results">
+                </div>
+                <div class="search_results_footer_empty">
+                </div>
+
+        </div>
+
         <nav>
             <?php
                //Unread Messages 
                $messages = new Message($con,$userLoggedIn);
                $num_messages = $messages->getUnreadNumber();
+
+               //unread notifications
+
+               $notifications= new Notification($con,$userLoggedIn);
+               $num_notifications = $notifications->getUnreadNumber();
+
+               $user_obj= new User($con,$userLoggedIn);
+               $num_requests = $user_obj->getNumberOfFriendRequests();
+
 
 
             ?>
@@ -62,9 +88,25 @@ else{
                 ?>
 
             </a>
-        	<a href="request.php"><i class="fa fa-users" aria-hidden="true"></i></a>
+        	<a href="request.php"><i class="fa fa-users" aria-hidden="true"></i>
+                <?php
+                if($num_requests>0)
 
-        	<a href=""><i class="fa fa-bell-o" aria-hidden="true"></i></a>
+                echo '<span class="notification_badge" id ="unread_request">'.$num_requests.' </span>'; 
+                
+                ?>
+
+            </a>
+
+        	<a href="javascript:void(0);" onclick="getDropdownData('<?php echo $userLoggedIn; ?>','notification')"><i class="fa fa-bell-o" aria-hidden="true"></i>
+             <?php
+                if($num_notifications>0)
+                echo '<span class="notification_badge" id ="unread_notification">'.$num_notifications.' </span>'; 
+                
+                ?>
+   
+
+            </a>
         	<a href="includes/handlers/logout.php"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
           
         </nav>
@@ -112,9 +154,9 @@ else{
                      var type = $('#dropdown_data_type').val();
 
                      if(type=="notification"){
-                        pageName = "ajax_load_notification.php";
+                        pageName = "ajax_load_notifications.php";
                      }
-                     else if(type="message"){
+                     else if(type=="message"){
                         pageName = "ajax_load_messages.php";
                      }
                      var ajaxReq = $.ajax({

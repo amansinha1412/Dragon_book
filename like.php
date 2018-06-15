@@ -23,6 +23,7 @@
 require 'config/config.php';
 include("includes/classes/User.php");
 include("includes/classes/Post.php");
+include("includes/classes/Notification.php");
 
 if(isset($_SESSION['username'])){
 	$userLoggedIn = $_SESSION['username'];
@@ -35,6 +36,7 @@ else{
 }
 if(isset($_GET['post_id'])){
    	  $post_id = $_GET['post_id'];
+     // unset($_GET);
    }
 
    $get_likes = mysqli_query($con,"SELECT likes,added_by from posts where id='$post_id'");
@@ -58,6 +60,13 @@ if(isset($_GET['post_id'])){
    	$insert_user = mysqli_query($con,"INSERT into likes values('','$userLoggedIn','$post_id')");
 
    	//insert notification
+
+    if($user_liked!=$userLoggedIn){
+       //echo "alert('here')";
+       $notification = new Notification($con,$userLoggedIn);
+              $notification->insertNotification($post_id,$user_liked,"like");
+    }
+    //unset($_POST);
    }
    //unlike button
    if(isset($_POST['unlike_button'])){
