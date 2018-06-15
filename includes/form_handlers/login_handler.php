@@ -18,6 +18,9 @@
         
     	$_SESSION['username'] = $username;
     	$_SESSION['message'] = "";
+      if($row['account_closed']=='yes'){
+        $open_account_query = mysqli_query($con,"UPDATE users set account_closed='NO' where username='$username'");
+      }
       header("Location: index.php");
     	exit();
 

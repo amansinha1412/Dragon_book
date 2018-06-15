@@ -51,7 +51,7 @@ else{
               </form>
               <div class="search_results">
                 </div>
-                <div class="search_results_footer_empty">
+                <div class="search_results_footer_empty" onclick = "search_submit()">
                 </div>
 
         </div>
@@ -78,7 +78,7 @@ else{
         	?></a>
         	<a href="index.php" class="home_icon_link"><i class="fa fa-home fa-lg" aria-hidden="true"></i></a>
         	<a href=""><i class="fa fa-commenting-o" aria-hidden="true"></i></a>
-        	<a href=""><i class="fa fa-cog" aria-hidden="true"></i></a>
+        	<a href="settings.php"><i class="fa fa-cog" aria-hidden="true"></i></a>
             <a href="javascript:void(0);" onclick="getDropdownData('<?php echo $userLoggedIn; ?>','message')"> <i class="fa fa-envelope-square" aria-hidden="true"></i>
                 <?php
                 if($num_messages>0)

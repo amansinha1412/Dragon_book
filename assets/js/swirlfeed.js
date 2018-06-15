@@ -14,10 +14,7 @@ $(document).ready(function(){
       }
   });
 
-  $('.search_results_footer').on("click",function(){
-     document.search_form.submit();
-     $('#search_text_input').val ="";
-  });
+  
  
   $('.button_holder').on('click' ,function(){
        document.search_form.submit();
@@ -122,4 +119,9 @@ function getLiveSearchUsers(value,user){
       }  
    });
 
-} 
+}
+function search_submit(){
+     //console.log("hi");
+     document.search_form.submit();
+    // $('#search_text_input').val ="";
+  } 

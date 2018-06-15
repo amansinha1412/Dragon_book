@@ -81,6 +81,7 @@ nav a:hover{
     border-radius:5px;
     box-shadow: 2px 2px 1px #d3d3d3;
     z-index:-1;
+    color:#555;
 
 }
 .modal{
@@ -542,6 +543,7 @@ margin-right:20px;
 	border-top:none;
 	background-color: #20AAB5;
 	text-align:center;
+	cursor:pointer;
 }
 .search_results_footer a{
 	color:#fff;
@@ -565,5 +567,25 @@ margin-right:20px;
 	padding:7px 12px ;
 	border-radius:5px;
 	color:#fff;
+}
+#small_profile_pic{
+	height:55px;
+	margin:1px 12px 0 2px;
+	float:left;
+}
+#settings_input{
+	border:1px solid #ccc;
+	height:20px;
+	padding:4px 6px;
+   margin-bottom:10px;
+   border-radius: 4px;
+   font-size:14px;
+   line-height:20px;
+}
 
+.settings_submit{
+	border:none;
+	padding:7px 12px;
+	border-radius: 5px;
+	color:#fff;
 }
