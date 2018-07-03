@@ -57,11 +57,12 @@ if(isset($_POST['register_button'])){
       	  $em = filter_var($em, FILTER_VALIDATE_EMAIL);
 
       	  //check if mail already exists
-
+  
       	  $check = mysqli_query($con,"SELECT email from users where email='$em'");
       	  //Count num of rows used
       	  $num_rows = mysqli_num_rows($check);
       	  if($num_rows>0){
+                array_push($error_array,"Email already in use<br>"); 
       	        echo"error";
       		  	$flag = false;
       	  }
@@ -69,28 +70,34 @@ if(isset($_POST['register_button'])){
       }
     } 
     else{
+        array_push($error_array,"Emails don't match<br>");
     	echo"error";
         $flag = false;
     }
     if(strlen($fname)>25 || strlen($fname)<2)
     {echo"error";
+    array_push($error_array,"First name must be greater or less than 2 and 25 chracters respectively<br>");  
     $flag = false;
     }
     if(strlen($lname)>25 || strlen($lname)<2)
     {echo"error";
+     array_push($error_array,"Last name must be greater or less than 2 and 25 chracters respectively<br>");
     $flag = false;
     }
     if($password != $password2){
     	echo"error";
+        array_push($error_array,"Passwords dont match<br>");
     	$flag = false;
     }
     else{
     	if(preg_match('/[^A-Za-z0-9]/',$password)){
+            array_push($error_array,"Passwords must contain alphabets or digits<br>");
     		echo"error";
     		$flag = false;
     	}
     }
     if(strlen($password)>30 || strlen($password)<5){
+        array_push($error_array,"Passwords must contain 5 or more characters<br>");
     	echo"error";
     	$flag = false;
     }
@@ -109,7 +116,7 @@ if(isset($_POST['register_button'])){
     		$username = $username."_".$i;
     		$check_username_query =mysqli_query($con,"SELECT username from users where username='$username'"); 
     	}
-        echo $username;
+        //echo $username;
 
     	//profile pic assinment
 
@@ -122,17 +129,23 @@ if(isset($_POST['register_button'])){
         $arr[4] = '5';
         $arr[5] = '6';
 
-        echo $arr[$n];
+        //echo $arr[$n];
 
      	$profile_pic = "assets/images/profile_pics/default/".$arr[$n].".png";
     	$k = "NO";
         $query = mysqli_query($con,"INSERT into users values ('','$fname' , '$lname' , '$username' , '$em' , '$password' ,'$profile_pic','$date','0','0','NO',',') " );
-        
+       
+       array_push($error_array, "<span style='color:#14C800'>You're all set go ahead and login</span>"); 
        //echo ""
         if($query === false){
         	printf("error: %s\n", mysqli_error($con));
         }
     }
+    else{
+       // header("location: register.php");
+    }
+    
+    
 
 }
 ?>

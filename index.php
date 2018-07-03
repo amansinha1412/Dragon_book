@@ -11,16 +11,61 @@ include("includes/header.php");
 
 if(isset($_POST['post'])){
    //$_SESSION['post_text'] = $_POST['post_text'];	
-   if($_POST['post_text']!=$_SESSION['message']){
-   //echo $_POST['post_text']." ".$_SESSION['message'];	
+   $uploadOk = 1 ;
+   $imageName = $_FILES['fileToUpload']['name'];
+
+   $errorMessage = "";
+
+   if($imageName !=""){
+    $targetDir = "assets/images/posts/";
+    $imageName = $targetDir.uniqid().basename($imageName);
+    $imageFileType = pathinfo($imageName,PATHINFO_EXTENSION);
+
+    if($_FILES['fileToUpload']['size']>100000000){
+         $errorMessage = "Sorry the filesize is too large";
+         $uploadOk=0; 
+    }
+
+    if(strtolower($imageFileType)!="jpeg" && strtolower($imageFileType)!="png" && strtolower($imageFileType)!="jpg"){
+      $errorMessage = "Sorry only jpg, jpeg and png file are allowed";
+      $uploadOk=0;
+    }
+
+    if($uploadOk){
+      if(move_uploaded_file($_FILES['fileToUpload']['tmp_name'], $imageName)){
+        //image uploaded ok;
+      }
+      else{
+        $uploadOk = 0;
+        
+      }
+
+    }
+
+   }
+   
+   if($uploadOk == 1){
+
+     if($_POST['post_text']!=$_SESSION['message']){
+   //echo $_POST['post_text']." ".$_SESSION['message']; 
    $post = new Post($con,$userLoggedIn);
    //echo "adding";
-   $post->submitPost($_POST['post_text'],'none');   
+   $post->submitPost($_POST['post_text'],'none',$imageName);   
    $_SESSION['message'] = $_POST['post_text'];
    //echo $_SESSION['message'];
    unset($_POST);
    //header("Location: index.php");
     }
+
+   }
+   else{
+      echo "<div style='text-align:center'class='alert alert-danger'>
+          $errorMessage;
+            </div>
+      ";
+   }
+
+   
    
   //else{
   	//unset($_POST);
@@ -55,7 +100,8 @@ if(isset($_POST['post'])){
     
 
     <div class="main_column column">
-    	<form class="post_form" action="index.php" method="POST" >
+    	<form class="post_form" action="index.php" method="POST" enctype="multipart/form-data">
+        <input type="file" name="fileToUpload" id="fileToUpload">
     		<textarea name="post_text" id="post_text" placeholder="Whats on your mind!" ></textarea>
     		<input type="submit" name="post" id="post_button" value="Post">
     	</form>

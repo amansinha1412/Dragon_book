@@ -20,7 +20,7 @@ require 'includes/form_handlers/login_handler.php';
    if(isset($_POST['register_button'])){
     echo '
      <script>
-         $(document).ready(functio(){
+         $(document).ready(function(){
               $("#first").hide();
               $("#second").show();
          });
@@ -43,10 +43,16 @@ require 'includes/form_handlers/login_handler.php';
           	<br>
           	<input type="password" name = "log_password" placeholder ="password" required>
           	<br>
+            <?php
+              if(in_array("Email or password is incorrect<br>",$error_array)){
+                echo "Email or password is incorrect<br>";
+              }
+
+            ?>
           	<input type="submit" name = "login_button" value = "LOGIN">
             <br>
             <a href="#" id="signup" class="signup">Need an account? Register here </a>
-
+            
           </form>
      	  </div>
         <div id="second">
@@ -59,14 +65,22 @@ require 'includes/form_handlers/login_handler.php';
             	?> required>
 
             	<br>
-            	
+            	<?php
+              if(in_array("First name must be greater or less than 2 and 25 chracters respectively<br>",$error_array)){
+                echo "First name must be greater or less than 2 and 25 chracters respectively<br>";
+              }
+              ?>
             	<input type = "text" name="reg_lname" placeholder="Last Name" <?php if(isset($_SESSION['reg_fname'])){
             		echo $_SESSION['reg_lname'];
             	}
 
             	?> required>
             	<br>
-            	
+            	<?php
+              if(in_array("Last name must be greater or less than 2 and 25 chracters respectively<br>",$error_array)){
+                echo "Last name must be greater or less than 2 and 25 chracters respectively<br>";
+              }
+              ?>
             	<input type = "text" name="reg_email" placeholder="Email" 
             	 <?php if(isset($_SESSION['reg_fname'])){
             		echo $_SESSION['reg_email'];
@@ -74,22 +88,47 @@ require 'includes/form_handlers/login_handler.php';
 
             	?> required>
             	<br>
-            	
+            	<?php
+              if(in_array("Email already in use<br>",$error_array)){
+                echo "Email already in use<br>";
+              }
+              ?>
             	<input type = "text" name="reg_email2" placeholder="Confirm Email" <?php if(isset($_SESSION['reg_email2'])){
             		echo $_SESSION['reg_email2'];
             	}
 
             	?> required>
             	<br>
+              <?php
+              if(in_array("Emails don't match<br>",$error_array)){
+                echo "Emails don't match<br>";
+              }
+              ?>
             	<input type = "password" name="reg_password" placeholder="Password"  required>
             	<br>
-            		
+            	<?php
+              if(in_array("Passwords must contain 5 or more characters<br>",$error_array))
+                echo "Passwords must contain 5 or more characters<br>";
+              
+              if(in_array("Passwords must contain alphabets or digits<br>",$error_array)){
+                 echo "Passwords must contain alphabets or digits<br>";
+              }
+              ?>	
             	<input type = "password" name="reg_password2" placeholder="Confirm Password"  required>
             	<br>
-            	
+            	<?php
+                if(in_array("Passwords dont match<br>",$error_array)){
+                  echo "Passwords dont match<br>";
+                }
+              ?>
             	<input type = "submit" name="register_button" value="Register">
               <br>
-              <a href="#" id="signin" class="signin">Aleady have an account? Sign in here </a>
+              <?php
+                if(in_array("<span style='color:#14C800'>You're all set go ahead and login</span>",$error_array)){
+                  echo "<span style='color:#14C800'><a href='register.php'>You're all set go ahead and login</a></span><br>";
+                }
+              ?>
+              <a href="register.php" id="signin" class="signin">Aleady have an account? Sign in here </a>
           </form>
         </div>      
       </div> 

@@ -8,7 +8,7 @@ class Post{
 		$this->user_obj =new User($con,$user);
 	}
 
-	public function submitPost($body,$user_to){
+	public function submitPost($body,$user_to,$imageName){
 		$body = strip_tags($body);
 		$body = mysqli_real_escape_string($this->con,$body);
 		$check_empty = preg_replace('/\s+/','',$body);//deletes all spaces
@@ -47,7 +47,7 @@ class Post{
 
 
             //insert post
-            $query = mysqli_query($this->con,"INSERT into posts values('','$body','$added_by','$user_to','$date_added','NO','NO','0')");
+            $query = mysqli_query($this->con,"INSERT into posts values('','$body','$added_by','$user_to','$date_added','NO','NO','0','$imageName')");
             if($query==false){
     	      printf("error: %s\n", mysqli_error($this->con));
             }
@@ -168,7 +168,7 @@ class Post{
         	$body=$row['body'];
         	$added_by = $row['added_by'];
         	$date_time = $row['date_added'];
-
+          $imagePath = $row['image'];
         	//prepare user_to string if geven to another user or not
 
         	if($row['user_to']=="none"){
@@ -299,6 +299,14 @@ class Post{
                    }
           	}
           
+           if($imagePath!=""){
+               $imageDiv = "<div class='posted_image'>
+                 <img src='$imagePath'>
+               </div>";
+           }
+           else{
+            $imageDiv = "";
+           }
 
             $str.= "<div class='status_post' onclick='javascript:toggle$id()'>
                        <div class='post_profile_pic'>
@@ -309,7 +317,9 @@ class Post{
                           $delete_button
                          
                          <div id = 'post_body'>
-                           $body 
+                           $body
+                           <br>
+                           $imageDiv 
                          </div>
                          <br>
                          <br>
